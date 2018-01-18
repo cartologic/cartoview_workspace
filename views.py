@@ -11,6 +11,8 @@ from geonode.documents.models import Document
 from geonode.groups.models import GroupProfile
 from geonode.layers.models import Layer
 from geonode.maps.models import Map
+import requests
+import json
 
 standard_library.install_aliases()
 
@@ -18,28 +20,35 @@ standard_library.install_aliases()
 @login_required
 def workspace(request):
     owner = request.user
-    apps = AppInstance.objects.filter(owner=owner)
     created_apps = AppInstance.objects.all()
-    layers = Layer.objects.filter(owner=owner)
-    maps = Map.objects.filter(owner=owner)
     maps_count = Map.objects.all().count()
     layers_count = Layer.objects.all().count()
-    documents = Document.objects.filter(owner=owner)
     documents_count = Document.objects.all().count()
-    groups = owner.group_list_all()
     groups_count = GroupProfile.objects.all().count()
+    layers_req = requests.get('http://'+request.get_host()+'/api/layers?owner__username='+owner.username)
+    layer = layers_req.json()
+    maps_req = requests.get('http://'+request.get_host()+'/api/maps?owner__username='+owner.username)
+    maps = maps_req.json()
+    appinstances_req = requests.get('http://'+request.get_host()+'/api/appinstances/?owner__username='+owner.username)
+    apps =  appinstances_req.json()
+    groups_req = requests.get('http://'+request.get_host()+'/api/groups?owner__username='+owner.username)
+    groups = groups_req.json()
+    docs_req = requests.get('http://'+request.get_host()+'/api/documents?owner__username='+owner.username)
+    docs = docs_req.json()
+  
+  
     return render(
         request,
         template_name='cartoview_workspace/workspace.html',
         context={
             'my_apps': apps,
-            'my_layers': layers,
+            'my_layers': layer,
             'created_apps': created_apps,
             'my_maps': maps,
             'maps_count': maps_count,
             'layers_count': layers_count,
             "groups": groups,
             "groups_count": groups_count,
-            "documents": documents,
+            "documents": docs,
             "documents_count": documents_count
         })
