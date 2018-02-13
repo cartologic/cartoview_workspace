@@ -2,7 +2,8 @@ from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
 from builtins import *
-from account.decorators import login_required
+
+from django.contrib.auth.decorators import login_required
 from cartoview.app_manager.models import AppInstance
 from django.shortcuts import render
 from future import standard_library
