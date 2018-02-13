@@ -19,6 +19,7 @@ standard_library.install_aliases()
 
 @login_required
 def workspace(request):
+    
     created_apps = AppInstance.objects.all()
     maps_count = Map.objects.all().count()
     layers_count = Layer.objects.all().count()
@@ -34,5 +35,6 @@ def workspace(request):
             'layers_count': layers_count,
             "groups_count": groups_count,
             "documents_count": documents_count,
-            "user": request.user.username
+            "loggeduser": request.user.username
         })
+
