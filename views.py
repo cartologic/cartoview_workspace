@@ -8,6 +8,5 @@ def workspace(request):
     return render(
         request,
         template_name='cartoview_workspace/workspace.html',
-        context={
-            "loggeduser": request.user.username
-        })
+        context={}
+        )

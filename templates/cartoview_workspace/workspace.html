@@ -24,8 +24,9 @@
 
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script>
+    var user="{{ request.user }}"
     $.getResourceDetails = function (resource) {
-        $.get("/api/" + resource + "?owner__username=" + "{{loggeduser}}", function (data) {
+        $.get("/api/" + resource + "?owner__username=" + user, function (data) {
 
             $("#" + resource + "_count").html(data.objects.length);
             for (i = 0; i < data.objects.length & i < 3; i++) {
