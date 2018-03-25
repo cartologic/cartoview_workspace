@@ -7,7 +7,6 @@ standard_library.install_aliases()
 from builtins import *
 from django.conf.urls import patterns, url
 from .views import workspace
-
 urlpatterns = patterns(
     '',
     url('^$', workspace, name="my_workspace"),)
