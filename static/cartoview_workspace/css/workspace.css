@@ -1,0 +1,28 @@
+.buttons {
+    text-align: center;
+}
+
+.image {
+    min-height: 200px;
+    height: 200px;
+}
+
+.shadowbtn {
+    color: white;
+    margin-right: 10px;
+}
+
+.divrow {
+    padding: 10px;
+}
+.image{
+
+    width: 220px;
+    height: 200px !important;
+}
+.btn {
+    width:180px!important;
+}
+.thumbnail{
+    text-align: center;
+}
