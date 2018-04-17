@@ -7,6 +7,6 @@ from django.shortcuts import render
 def workspace(request):
     return render(
         request,
-        template_name='cartoview_workspace/workspace.html',
+        template_name='workspace/workspace.html',
         context={}
         )
