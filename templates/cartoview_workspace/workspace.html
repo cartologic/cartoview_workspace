@@ -122,19 +122,29 @@
 {% block extra_script %}
     <script>
         var user = "{{ request.user }}"
+        let logo, title, detail_url;
         $.getResourceDetails = function (resource) {
             $.get("/api/" + resource + "?owner__username=" + user, function (data) {
 
                 $("#" + resource + "_count").html(data.objects.length);
                 for (i = 0; i < data.objects.length & i < 3; i++) {
-                    if (data.objects[i].thumbnail_url) {
-                        logo = data.objects[i].thumbnail_url
+                    if(data.objects[i].group_profile){
+                        logo = data.objects[i].group_profile.logo_url
+                        title = data.objects[i].group_profile.title;
+                        detail_url = data.objects[i].group_profile.detail_url
                     }
-                    else if (data.objects[i].logo) {
-                        logo = data.objects[i].logo
-                    }
-                    else {
-                        logo = "{{STATIC_URL}}" + data.objects[i].app.name + "/logo.png"
+                    else{
+                        if (data.objects[i].thumbnail_url) {
+                            logo = data.objects[i].thumbnail_url
+                        }
+                        else if (data.objects[i].logo) {
+                            logo = data.objects[i].logo
+                        }
+                        else {
+                            logo = "{{STATIC_URL}}" + data.objects[i].app.name + "/logo.png"
+                        }
+                        title = data.objects[i].title;
+                        detail_url = data.objects[i].detail_url;
                     }
                     $('#' + resource).append(
                         '<div class=' + resource + '  id=' + data.objects.length + '>' +
@@ -145,8 +155,8 @@
                         'fallback-src="{{ STATIC_URL }}app_manager/img/no-image.jpg">' +
 
                         '<div class="caption">' +
-                        '<h5>' + data.objects[i].title + '</h5>' +
-                        '<p><a href="' + data.objects[i].detail_url + '"' +
+                        '<h5>' + title + '</h5>' +
+                        '<p><a href="' + detail_url + '"' +
                         'class="btn btn-primary" role="button">View</a>' +
                         '</p>' +
                         '</div>' +
